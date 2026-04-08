@@ -259,6 +259,11 @@ const ChatBot = () => {
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-20 lg:bottom-6 right-4 z-[100] w-[calc(100vw-2rem)] max-w-[400px] h-[min(650px,calc(100vh-8rem))] bg-[#1A0501] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col overflow-hidden"
           >
             {/* Header */}
@@ -281,7 +286,8 @@ const ChatBot = () => {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide">
+              {messages.map((msg, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: msg.role === "user" ? 10 : -10 }}
@@ -302,11 +308,11 @@ const ChatBot = () => {
 
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex justify-start">
-                  <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
+                  <div className="bg-white/10 border border-white/10 rounded-2xl rounded-bl-md px-4 py-3">
                     <div className="flex gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
+                      <span className="w-2 h-2 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-2 h-2 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-2 h-2 rounded-full bg-white/40 animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
                   </div>
                 </div>
@@ -317,11 +323,11 @@ const ChatBot = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-muted/50 border border-border/50 rounded-xl p-4 space-y-3"
+                  className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3"
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <Calendar className="w-4 h-4 text-accent" />
-                    <span className="font-heading font-bold text-primary text-sm">Quick Booking</span>
+                    <span className="font-heading font-bold text-white text-sm">Quick Booking</span>
                   </div>
                   <input
                     type="text"
@@ -349,43 +355,43 @@ const ChatBot = () => {
                       type="date"
                       value={booking.date}
                       onChange={(e) => setBooking({ ...booking, date: e.target.value })}
-                      className="px-3 py-2.5 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                      className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
                     />
                     <select
                       value={booking.time}
                       onChange={(e) => setBooking({ ...booking, time: e.target.value })}
-                      className="px-3 py-2.5 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                      className="px-3 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
                     >
-                      <option value="">Time</option>
-                      <option value="9:00 AM">9:00 AM</option>
-                      <option value="10:00 AM">10:00 AM</option>
-                      <option value="11:00 AM">11:00 AM</option>
-                      <option value="1:00 PM">1:00 PM</option>
-                      <option value="2:00 PM">2:00 PM</option>
-                      <option value="3:00 PM">3:00 PM</option>
-                      <option value="4:00 PM">4:00 PM</option>
+                      <option value="" className="bg-[#1A0501]">Time</option>
+                      <option value="9:00 AM" className="bg-[#1A0501]">9:00 AM</option>
+                      <option value="10:00 AM" className="bg-[#1A0501]">10:00 AM</option>
+                      <option value="11:00 AM" className="bg-[#1A0501]">11:00 AM</option>
+                      <option value="1:00 PM" className="bg-[#1A0501]">1:00 PM</option>
+                      <option value="2:00 PM" className="bg-[#1A0501]">2:00 PM</option>
+                      <option value="3:00 PM" className="bg-[#1A0501]">3:00 PM</option>
+                      <option value="4:00 PM" className="bg-[#1A0501]">4:00 PM</option>
                     </select>
                   </div>
                   <Button
                     variant="gold"
-                    className="w-full min-h-[44px] rounded-lg"
+                    className="w-full min-h-[48px] rounded-xl text-base shadow-lg shadow-accent/20"
                     onClick={handleBookingSubmit}
                     disabled={!booking.name || !booking.phone || isLoading}
                   >
-                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Confirm Booking <ArrowRight className="w-4 h-4 ml-1" /></>}
+                    {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Confirm Booking <ArrowRight className="w-4 h-4 ml-1" /></>}
                   </Button>
-                  <p className="text-[11px] text-muted-foreground text-center">Takes 30 seconds · No obligation</p>
+                  <p className="text-[11px] text-white/40 text-center uppercase tracking-widest font-bold">Secure · Board Certified</p>
                 </motion.div>
               )}
 
               {/* Quick Replies */}
               {getQuickReplies().length > 0 && !isLoading && (
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-wrap gap-2 pt-1 pb-2">
                   {getQuickReplies().map((r) => (
                     <button
                       key={r}
                       onClick={() => handleQuickReply(r)}
-                      className="bg-accent/10 hover:bg-accent/20 text-foreground border border-accent/20 rounded-full px-3 py-1.5 text-xs font-medium transition-colors active:scale-95"
+                      className="bg-accent/10 hover:bg-accent/20 text-white border border-accent/30 rounded-full px-4 py-2 text-[13px] font-medium transition-all active:scale-95 whitespace-nowrap"
                     >
                       {r}
                     </button>
@@ -394,14 +400,14 @@ const ChatBot = () => {
               )}
             </div>
 
-            {/* Input */}
-            <div className="border-t border-border/50 px-3 py-3 shrink-0">
-              <div className="flex items-center gap-2">
+            {/* Input Area */}
+            <div className="border-t border-white/10 px-4 py-4 shrink-0 bg-[#1A0501]">
+              <div className="flex items-center gap-3">
                 <a
                   href="tel:+18321234567"
-                  className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 hover:bg-accent/20 transition-colors"
+                  className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 hover:bg-white/10 transition-all active:scale-90"
                 >
-                  <Phone className="w-4 h-4 text-accent" />
+                  <Phone className="w-5 h-5 text-accent" />
                 </a>
                 <div className="flex-1 flex items-center bg-white/5 border border-white/10 rounded-full px-4 transition-all focus-within:bg-white/10 focus-within:border-accent/30">
                   <input
