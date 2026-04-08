@@ -62,14 +62,14 @@ const ServicePageLayout = ({
   extraSection,
 }: ServicePageProps) => (
   <div>
-    {/* Hero — Full-width immersive banner */}
-    <section className="relative mt-[64px] overflow-hidden">
+    {/* Hero — Boxed Grid layout matching Index.tsx */}
+    <section className="relative px-4 pb-4 md:px-6 md:pb-6 lg:px-8 pt-[88px] z-10 xl:px-12">
+      <div className="relative border border-white/20 rounded-[2rem] overflow-hidden backdrop-blur-sm bg-white/5 shadow-2xl transition-all duration-700 hover:border-white/30">
       {/* Background gallery image */}
-      <div className="absolute inset-0">
-        <AutoGallery images={galleryImages} interval={3000} className="w-full h-full rounded-none aspect-auto" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
-      </div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#8D2C08]/40 to-[#B54804]/20 hidden" />
+        <div className="absolute inset-0 -z-10 mix-blend-overlay opacity-30 grayscale">
+          <AutoGallery images={galleryImages} interval={3000} className="w-full h-full rounded-none aspect-auto object-cover" />
+        </div>
 
       <div className="container-wide px-5 md:px-6 relative z-10 py-16 md:py-24 lg:py-32">
         <div className="max-w-2xl">
@@ -81,7 +81,7 @@ const ServicePageLayout = ({
             className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20 rounded-full px-4 py-2 mb-6"
           >
             <Star className="w-4 h-4 text-accent fill-accent" />
-            <span className="text-sm font-semibold text-primary-foreground">{badge}</span>
+            <span className="text-sm font-semibold text-white">{badge}</span>
           </motion.div>
 
           {/* Title */}
@@ -89,7 +89,7 @@ const ServicePageLayout = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-heading font-extrabold text-primary-foreground leading-[1.08] mb-5"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-heading font-extrabold text-white leading-[1.08] mb-5"
           >
             {title}
           </motion.h1>
@@ -99,7 +99,7 @@ const ServicePageLayout = ({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="text-primary-foreground/70 leading-relaxed mb-8 max-w-lg text-sm md:text-base lg:text-lg"
+            className="text-white/70 leading-relaxed mb-8 max-w-lg text-sm md:text-base lg:text-lg"
           >
             {subtitle}
           </motion.p>
@@ -121,8 +121,8 @@ const ServicePageLayout = ({
               <div className="flex items-center gap-4 md:gap-6">
                 {stats.map((s, i) => (
                   <div key={s.label} className="flex flex-col items-center">
-                    <span className="font-heading font-extrabold text-primary-foreground text-lg md:text-xl">{s.value}</span>
-                    <span className="text-[10px] md:text-xs text-primary-foreground/50 whitespace-nowrap">{s.label}</span>
+                    <span className="font-heading font-extrabold text-white text-lg md:text-xl">{s.value}</span>
+                    <span className="text-[10px] md:text-xs text-white/50 whitespace-nowrap">{s.label}</span>
                     {i < stats.length - 1 && (
                       <span className="hidden" />
                     )}
@@ -134,8 +134,9 @@ const ServicePageLayout = ({
         </div>
       </div>
 
-      {/* Bottom edge curve */}
-      <div className="absolute bottom-0 left-0 right-0 h-6 bg-background rounded-t-[2rem]" />
+        {/* Bottom edge curve */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      </div>
     </section>
 
     {/* Services Grid */}
@@ -213,8 +214,8 @@ const ServicePageLayout = ({
     <section className="section-padding gradient-navy text-center">
       <ScrollReveal>
         <div className="container-tight max-w-xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary-foreground mb-4">{ctaTitle}</h2>
-          <p className="text-primary-foreground/60 mb-6 md:mb-8 text-sm md:text-base">{ctaDesc}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-4">{ctaTitle}</h2>
+          <p className="text-white/60 mb-6 md:mb-8 text-sm md:text-base">{ctaDesc}</p>
           <Link to="/contact">
             <Button variant="gold" size="lg" className="min-h-[48px]">{ctaButtonText} <ArrowRight className="w-4 h-4 ml-1" /></Button>
           </Link>

@@ -6,45 +6,45 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 50% 15%;
+    --background: 0 0% 0% / 0;
+    --foreground: 0 0% 100%;
 
-    --card: 210 20% 98%;
-    --card-foreground: 210 50% 15%;
+    --card: 0 0% 100% / 0.05;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 50% 15%;
+    --popover: 14 100% 20%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 210 100% 14%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 14 100% 20%;
 
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 210 50% 15%;
+    --secondary: 0 0% 100% / 0.1;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 15% 95%;
-    --muted-foreground: 210 10% 45%;
+    --muted: 0 0% 100% / 0.05;
+    --muted-foreground: 0 0% 100% / 0.7;
 
     --accent: 33 38% 64%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 10%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 90%;
-    --input: 210 15% 90%;
+    --border: 0 0% 100% / 0.15;
+    --input: 0 0% 100% / 0.15;
     --ring: 33 38% 64%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --navy: 210 100% 14%;
+    --navy: 14 100% 20%;
     --gold: 33 38% 64%;
     --gold-light: 33 38% 90%;
     --surface-elevated: 210 20% 99%;
-    --gradient-navy: linear-gradient(135deg, hsl(210 100% 14%), hsl(210 80% 22%));
+    --gradient-navy: linear-gradient(135deg, #8D2C08, #B54804);
     --gradient-gold: linear-gradient(135deg, hsl(33 38% 64%), hsl(33 50% 72%));
-    --shadow-card: 0 4px 24px -4px hsl(210 100% 14% / 0.08);
-    --shadow-card-hover: 0 12px 40px -8px hsl(210 100% 14% / 0.15);
+    --shadow-card: 0 4px 24px -4px hsl(14 100% 20% / 0.08);
+    --shadow-card-hover: 0 12px 40px -8px hsl(14 100% 20% / 0.15);
     --shadow-glow: 0 0 30px hsl(33 38% 64% / 0.3);
 
     --sidebar-background: 0 0% 98%;
@@ -64,7 +64,10 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply text-foreground font-body antialiased;
+    background: linear-gradient(135deg, #8D2C08, #B54804);
+    background-attachment: fixed;
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -105,6 +108,10 @@
 
   .gradient-gold {
     background: var(--gradient-gold);
+  }
+
+  .gradient-brand {
+    background: linear-gradient(135deg, #8D2C08, #B54804);
   }
 
   .card-shadow {
@@ -162,19 +169,20 @@
 
 /* Global scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(210 20% 96%);
+  background: #2B0D03;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(210 100% 14%);
-  border-radius: 4px;
+  background: #8D2C08;
+  border: 2px solid #2B0D03;
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(210 80% 22%);
+  background: #B54804;
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(210 100% 14%) hsl(210 20% 96%);
+  scrollbar-color: #8D2C08 #2B0D03;
 }

@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star, Shield, Award, Droplets, CircleDot, Bone, Utensils, Search, Scissors, Heart, ArrowRight, Clock, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import drHai from "@/assets/dr-hai-nguyen.webp";
+import drThomas from "@/assets/dr-thomas-nguyen.webp";
+import { Star, Shield, Award, Droplets, CircleDot, Bone, Utensils, Search, Scissors, Heart, ArrowRight, Clock, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ScrollReveal";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
-import { useState } from "react";
-
 import smileAfter from "@/assets/smile-after.jpg";
 import smileBefore from "@/assets/smile-before.jpg";
-import drHai from "@/assets/dr-hai-nguyen.webp";
-import drThomas from "@/assets/dr-thomas-nguyen.webp";
 import servicePerio from "@/assets/service-periodontics.jpg";
 import serviceImplants from "@/assets/service-implants.jpg";
 import serviceLanap from "@/assets/service-lanap.jpg";
@@ -30,171 +29,209 @@ const problems = [
 ];
 
 const services = [
-  {
-    title: "Periodontics",
-    desc: "Bleeding gums, receding tissue, bone loss — we treat the disease, not just the symptoms.",
-    link: "/periodontics",
-    image: servicePerio,
-    cta: "Fix My Gum Problem",
-  },
-  {
-    title: "Dental Implants",
-    desc: "Missing teeth change how you eat, speak, and feel. Implants restore all three — permanently.",
-    link: "/implants",
-    image: serviceImplants,
-    cta: "See If You Qualify",
-  },
-  {
-    title: "LANAP Laser",
-    desc: "Regenerate bone and save teeth without scalpels or sutures. Back to normal in 24 hours.",
-    link: "/lanap",
-    image: serviceLanap,
-    cta: "Learn About LANAP",
-  },
-  {
-    title: "Exams & Cleaning",
-    desc: "Catch problems before they become painful and expensive. One visit can save you thousands.",
-    link: "/exams",
-    image: serviceExams,
-    cta: "Book a Check-Up",
-  },
+  { title: "Periodontics", desc: "Bleeding gums, receding tissue, bone loss — we treat the disease, not just the symptoms.", link: "/periodontics", image: servicePerio, cta: "Fix My Gum Problem" },
+  { title: "Dental Implants", desc: "Missing teeth change how you eat, speak, and feel. Implants restore all three — permanently.", link: "/implants", image: serviceImplants, cta: "See If You Qualify" },
+  { title: "LANAP Laser", desc: "Regenerate bone and save teeth without scalpels or sutures. Back to normal in 24 hours.", link: "/lanap", image: serviceLanap, cta: "Learn About LANAP" },
+  { title: "Exams & Cleaning", desc: "Catch problems before they become painful and expensive. One visit can save you thousands.", link: "/exams", image: serviceExams, cta: "Book a Check-Up" },
 ];
 
 const Index = () => {
   const [eligibility, setEligibility] = useState({ teeth: "", bleeding: "", budget: "" });
   const [showResult, setShowResult] = useState(false);
+  
+  // Simple clock logic
+  const [time, setTime] = useState("");
+  
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-GB", {
+          timeZone: "Europe/Madrid",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }) + " GMT+1"
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div>
-      {/* HERO — CONVERSION CRITICAL */}
-      <section className="relative mt-[64px] overflow-hidden bg-background">
-        <div className="container-wide px-4 md:px-6 relative z-10 py-6 md:py-8 lg:py-12">
-          <div className="grid lg:grid-cols-2 gap-5 lg:gap-8 items-stretch min-h-[60vh] lg:min-h-[75vh]">
-            {/* Left - Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="bg-primary/[0.06] rounded-2xl md:rounded-3xl p-6 md:p-10 lg:p-12 flex flex-col justify-between"
+    <>
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] h-screen lg:overflow-hidden bg-gradient-to-br from-[#8D2C08] to-[#B54804] text-white font-body selection:bg-white/20">
+      
+      {/* Top Row (Header) - Left Column */}
+      {/* Hero Main Content - Left Column */}
+      <div className="border-r border-white/10 relative flex flex-col justify-between h-auto lg:h-[calc(100vh-88px)] pt-[72px] lg:pt-[88px] overflow-hidden">
+        
+        {/* Glowing Background Effect behind the tooth */}
+        <div className="absolute top-1/2 left-2/3 lg:left-[70%] -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#FFD700]/15 blur-[120px] rounded-full mix-blend-screen pointer-events-none"></div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] h-full relative z-10 p-6 lg:p-14 pt-4 lg:pt-6">
+          
+          {/* Main Text Content */}
+          <div className="flex flex-col justify-start h-full z-20 gap-8 pt-6 lg:pt-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col gap-3"
             >
-              <div>
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                  className="inline-flex items-center gap-2 bg-background rounded-full px-4 py-2 card-shadow mb-6 md:mb-8"
-                >
-                  <Star className="w-4 h-4 text-accent fill-accent" />
-                  <span className="text-sm font-semibold text-primary">Specialist-Led Care · 7,000+ Procedures</span>
-                </motion.div>
-
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] font-heading font-extrabold text-primary leading-[1.08] mb-4 md:mb-5">
-                  Stop Gum Disease Before It Costs You Your Teeth.
-                </h1>
-
-                <p className="text-muted-foreground leading-relaxed mb-6 md:mb-8 max-w-md text-sm md:text-base">
-                  Specialized periodontal and implant care for patients dealing with bleeding gums, bone loss, and missing teeth — treated with precision and long-term results.
-                </p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10"
-                >
-                  <Link to="/contact">
-                    <Button variant="hero-primary" size="lg" className="rounded-xl px-8 min-h-[48px] w-full sm:w-auto">Book Your Consultation</Button>
-                  </Link>
-                  <a href="#eligibility">
-                    <Button variant="hero-secondary" size="lg" className="rounded-xl px-8 min-h-[48px] w-full sm:w-auto">Check If You're a Candidate</Button>
-                  </a>
-                </motion.div>
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 w-fit border border-white/20">
+                <Star className="w-4 h-4 text-[#FFD700] fill-[#FFD700]" />
+                <span className="text-sm font-semibold text-white">Specialist-Led Care · 7,000+ Procedures</span>
               </div>
-
-              {/* Bottom mini cards */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="grid grid-cols-2 gap-3 md:gap-4"
-              >
-                <div className="bg-accent/15 rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-col gap-2 md:gap-3 relative overflow-hidden">
-                  <p className="font-heading font-bold text-primary text-xs md:text-sm leading-tight">Board-Certified<br />Periodontists</p>
-                  <Link to="/doctors" className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary flex items-center justify-center">
-                    <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary-foreground" />
-                  </Link>
-                  <img src={drHai} alt="Dr. Hai Nguyen, DDS MS" className="absolute -bottom-2 -right-2 w-16 h-16 md:w-20 md:h-20 rounded-full object-cover object-top opacity-80" loading="lazy" />
-                </div>
-                <div className="bg-accent/10 rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-col gap-2 md:gap-3 relative overflow-hidden">
-                  <p className="font-heading font-bold text-primary text-xs md:text-sm leading-tight">DDS + MS<br />Trained Specialists</p>
-                  <Link to="/doctors" className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary flex items-center justify-center">
-                    <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary-foreground" />
-                  </Link>
-                  <img src={drThomas} alt="Dr. Thomas Nguyen, DDS MS" className="absolute -bottom-2 -right-2 w-16 h-16 md:w-20 md:h-20 rounded-full object-cover object-top opacity-80" loading="lazy" />
-                </div>
-              </motion.div>
+              <p className="text-white/80 text-[16px] leading-relaxed max-w-sm font-light tracking-wide mt-1">
+                Specialized periodontal and implant care for patients dealing with bleeding gums, bone loss, and missing teeth — treated with precision and long-term results.
+              </p>
             </motion.div>
 
-            {/* Right - Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative rounded-2xl md:rounded-3xl overflow-hidden flex flex-col"
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-5xl md:text-6xl lg:text-[75px] font-heading font-extrabold text-white leading-[1.05] mb-4 tracking-[-0.03em] max-w-xl"
+              style={{ paddingBottom: '0.1em' }}
             >
-              <div className="relative flex-1 min-h-[280px] md:min-h-[400px]">
-                <img src={smileAfter} alt="Patient smiling after successful implant procedure" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/60 to-transparent" />
+              <span className="whitespace-nowrap">Stop Gum Disease</span> Before It Costs You Your Teeth.
+            </motion.h1>
+          </div>
+
+          {/* Central Image (Glowing Implant) */}
+          <div className="absolute right-0 bottom-0 top-0 w-1/2 flex items-center justify-center pointer-events-none overflow-visible">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+              className="relative w-full h-[120%] -mr-16 flex items-center justify-center"
+            >
+              <div className="relative flex flex-col items-center drop-shadow-[0_0_30px_rgba(255,215,0,0.15)] translate-y-4 lg:translate-y-8 scale-100 lg:scale-110 hover:scale-[1.12] transition-transform duration-700">
+                <img 
+                  src="/Dental%20implant%20with%20glowing%20tooth%20crown.png" 
+                  alt="Glowing Dental Implant" 
+                  className="w-[110%] max-w-[350px] lg:max-w-[550px] object-contain"
+                  loading="eager"
+                />
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-                className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 grid grid-cols-3 gap-2 md:gap-3"
-              >
-                {[
-                  { value: "20+", label: "Years in Practice" },
-                  { value: "7,000+", label: "Successful Cases" },
-                  { value: "5.0", label: "Google Rating" },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-background/95 backdrop-blur-md rounded-lg md:rounded-xl px-2 md:px-4 py-2 md:py-3 text-center">
-                    <p className="font-heading font-extrabold text-primary text-sm md:text-lg leading-tight">{stat.value}</p>
-                    <p className="text-[10px] md:text-[11px] text-muted-foreground mt-0.5">{stat.label}</p>
-                  </div>
-                ))}
-              </motion.div>
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Middle Row (Hero Main Content) - Right Sidebar */}
+      <div className="relative flex flex-col p-6 lg:p-10 justify-between col-span-1 lg:h-[calc(100vh-88px)] pt-[72px] lg:pt-[88px] border-t-0">
+        <motion.p 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.6 }}
+          className="text-white/80 text-[18px] leading-relaxed max-w-[250px] font-light mt-12 lg:mt-20"
+        >
+          Select from our team<br />
+          of highly skilled and<br />
+          experienced dentists
+        </motion.p>
+
+        <div className="mt-12 lg:mt-auto">
+          <div className="flex items-center text-white/50 text-[13px] tracking-wide mb-6">
+            Next <span className="ml-1 opacity-70">›</span>
+          </div>
+          
+          <div className="flex gap-4 scrollbar-hide w-[120%] -mr-10">
+            {/* Card 1 */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ delay: 0.7 }}
+              className="relative w-40 h-[220px] shrink-0 bg-black/20 rounded-sm overflow-hidden"
+            >
+              <img src={drHai} alt="Clara Collins" className="absolute inset-0 w-full h-full object-cover grayscale opacity-90 transition-opacity hover:grayscale-0 hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-[13px] font-medium text-white/90">
+                Clara Collins
+              </div>
+            </motion.div>
+            
+            {/* Card 2 */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+              className="relative w-40 h-[220px] shrink-0 bg-black/20 rounded-sm overflow-hidden"
+            >
+              <img src={drThomas} alt="Mason" className="absolute inset-0 w-full h-full object-cover grayscale opacity-90 transition-opacity hover:grayscale-0 hover:opacity-100 object-top" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-[13px] font-medium text-white/90">
+                Mason
+              </div>
             </motion.div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Bottom Row - Footer Grid Layer */}
+      <div className="border-t border-r border-white/10 h-[88px] grid grid-cols-2 px-6 lg:px-10 items-center text-[13px] text-white/60 font-body col-span-1 lg:col-span-1">
+        <div>
+          <div className="mb-0.5 opacity-80">Best Dentistry</div>
+          <div>2025</div>
+        </div>
+        <div className="pl-4">
+          <div className="mb-0.5 opacity-80">Barcelona, Spain</div>
+          <div>{time || "17:17:03 GMT+1"}</div>
+        </div>
+      </div>
+      
+      <div className="border-t border-white/10 h-[88px] flex flex-col justify-center px-6 lg:px-10 text-[13px] text-white/60 col-span-1 lg:col-span-1">
+        <div className="mb-0.5 opacity-80">Advanced Dental</div>
+        <div>Technologies</div>
+      </div>
+
+    </div>
 
       {/* PAIN → SOLUTION (Emotional Trigger) */}
-      <section className="section-padding gradient-navy overflow-hidden">
-        <div className="container-wide grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="section-padding relative overflow-hidden">
+        {/* Subtle decorative background elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full -mr-64 -mt-64" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full -ml-40 -mb-40" />
+        
+        <div className="container-wide relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <ScrollReveal>
-            <span className="text-accent font-heading font-semibold text-sm tracking-wider uppercase mb-3 block">Recognize the Signs</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground leading-[1.1] mb-5 md:mb-6">
-              These Symptoms Won't Resolve on Their Own.
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-heading font-semibold text-xs tracking-wider uppercase mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Recognize the Signs
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white leading-[1.05] mb-6">
+              These Symptoms Won't <br className="hidden md:block" />
+              <span className="text-accent underline decoration-white/20 underline-offset-8">Resolve</span> on Their Own.
             </h2>
-            <p className="text-primary-foreground/60 mb-4 max-w-md text-sm md:text-base">
-              Every week you wait, the damage progresses. Gum disease is silent, irreversible, and the #1 cause of adult tooth loss.
+            <p className="text-white/70 mb-6 max-w-md text-base md:text-lg leading-relaxed">
+              Every week you wait, the damage progresses. Gum disease is silent, irreversible, and the <span className="text-white font-semibold">#1 cause of adult tooth loss.</span>
             </p>
-            <p className="text-primary-foreground/80 font-heading font-semibold text-sm mb-6 md:mb-8">
-              We don't just clean teeth. We treat the root cause.
-            </p>
+            <div className="flex items-start gap-4 mb-8 md:mb-10 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm max-w-sm">
+              <div className="w-1.5 h-12 bg-accent rounded-full mt-1" />
+              <p className="text-white/90 font-heading font-medium text-sm md:text-base italic">
+                "We don't just clean teeth. We treat the root cause."
+              </p>
+            </div>
             <Link to="/contact">
-              <Button variant="gold" className="min-h-[48px]">Get a Personalized Treatment Plan <ArrowRight className="w-4 h-4 ml-1" /></Button>
+              <Button variant="gold" size="lg" className="min-h-[56px] px-8 text-base shadow-[0_0_20px_rgba(255,215,0,0.15)] group">
+                Get Your Personalized Plan 
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </Link>
           </ScrollReveal>
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
             {problems.map((p, i) => (
               <ScrollReveal key={p.title} delay={i * 0.1}>
-                <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-xl md:rounded-2xl p-4 md:p-5 hover-lift h-full">
-                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-destructive/20 flex items-center justify-center mb-3">
-                    <p.icon className="w-4 h-4 md:w-5 md:h-5 text-destructive" />
+                <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 transition-all duration-500 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1 h-full flex flex-col items-start">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 group-hover:border-destructive/40 group-hover:bg-destructive/10 transition-colors duration-500">
+                    <p.icon className="w-6 h-6 md:w-7 md:h-7 text-destructive transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <h3 className="font-heading font-bold text-primary-foreground text-xs md:text-sm mb-1.5">{p.title}</h3>
-                  <p className="text-[11px] md:text-xs text-primary-foreground/50 leading-relaxed">{p.desc}</p>
+                  <h3 className="font-heading font-bold text-white text-lg md:text-xl mb-3 tracking-tight">{p.title}</h3>
+                  <p className="text-sm md:text-base text-white/50 leading-relaxed group-hover:text-white/70 transition-colors duration-500">{p.desc}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -202,26 +239,26 @@ const Index = () => {
         </div>
       </section>
 
-      {/* PROCESS (Remove Fear → Increase Bookings) */}
+      {/* PROCESS */}
       <section className="section-padding relative">
-        <div className="container-tight text-center mb-10 md:mb-16">
+        <div className="container-tight text-center mb-12 md:mb-20">
           <ScrollReveal>
-            <span className="text-accent font-heading font-semibold text-sm tracking-wider uppercase mb-3 block">How It Works</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary mb-4">From Diagnosis to Results in 4 Steps</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-sm md:text-base">No guesswork. No unnecessary procedures. A clear path from day one.</p>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-heading font-semibold text-xs tracking-wider uppercase mb-5">How It Works</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white mb-4">From Diagnosis to Results in 4 Steps</h2>
+            <p className="text-white/60 max-w-lg mx-auto text-base md:text-lg">No guesswork. No unnecessary procedures. A clear path from day one.</p>
           </ScrollReveal>
         </div>
         <div className="container-wide max-w-5xl mx-auto px-5">
           <div className="relative">
             <motion.div
-              className="hidden md:block absolute top-16 left-[10%] right-[10%] h-0.5 origin-left"
+              className="hidden md:block absolute top-[2.25rem] left-[10%] right-[10%] h-[1px] origin-left"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-              style={{ background: "linear-gradient(90deg, hsl(33 38% 64% / 0), hsl(33 38% 64% / 0.4), hsl(33 38% 64% / 0))" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+              style={{ background: "linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent)" }}
             />
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
               {[
                 { icon: Search, num: 1, title: "Consultation & Diagnosis", desc: "3D imaging and thorough evaluation to understand exactly what's happening." },
                 { icon: Scissors, num: 2, title: "Personalized Treatment Plan", desc: "A clear roadmap tailored to your condition, goals, and timeline." },
@@ -230,32 +267,22 @@ const Index = () => {
               ].map((s, i) => (
                 <motion.div
                   key={s.title}
-                  className="text-center relative"
+                  className="group relative flex flex-col items-center"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: "easeOut" }}
+                  transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
                 >
-                  <motion.div
-                    className="w-14 h-14 rounded-2xl bg-accent/10 border-2 border-accent/20 flex items-center justify-center mx-auto mb-5 relative z-10 bg-background"
-                    initial={{ scale: 0, rotate: -20 }}
-                    whileInView={{ scale: 1, rotate: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.5, delay: 0.4 + i * 0.15, type: "spring", stiffness: 200 }}
-                  >
-                    <motion.span
-                      className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center"
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.6 + i * 0.15, type: "spring", stiffness: 300 }}
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center justify-center mb-6 relative z-10 transition-all duration-500 group-hover:border-accent/40 group-hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] group-hover:bg-white/10">
+                    <span
+                      className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-110"
                     >
                       {s.num}
-                    </motion.span>
-                    <s.icon className="w-6 h-6 text-accent" />
-                  </motion.div>
-                  <h3 className="font-heading font-bold text-primary text-sm md:text-base mb-2">{s.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[200px] mx-auto">{s.desc}</p>
+                    </span>
+                    <s.icon className="w-7 h-7 md:w-8 md:h-8 text-accent transition-transform duration-500 group-hover:scale-110" />
+                  </div>
+                  <h3 className="font-heading font-extrabold text-white text-base md:text-lg mb-3 tracking-tight group-hover:text-accent transition-colors duration-300">{s.title}</h3>
+                  <p className="text-white/50 text-sm md:text-base leading-relaxed text-center max-w-[200px] sm:max-w-none group-hover:text-white/70 transition-colors duration-300">{s.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -263,28 +290,36 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SERVICES (Problem → What We Do → Result) */}
-      <section className="section-padding bg-muted/30">
-        <div className="container-tight text-center mb-10 md:mb-16">
+      {/* SERVICES */}
+      <section className="section-padding relative">
+        <div className="container-tight text-center mb-12 md:mb-20">
           <ScrollReveal>
-            <span className="text-accent font-heading font-semibold text-sm tracking-wider uppercase mb-3 block">Specialized Treatment</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Targeted Solutions. Measurable Outcomes.</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-sm md:text-base">Every service follows one principle: diagnose accurately, treat precisely, deliver lasting results.</p>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-heading font-semibold text-xs tracking-wider uppercase mb-5">Specialized Treatment</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white mb-4">Targeted Solutions. Measurable Outcomes.</h2>
+            <p className="text-white/60 max-w-lg mx-auto text-base md:text-lg">Every service follows one principle: diagnose accurately, treat precisely, deliver lasting results.</p>
           </ScrollReveal>
         </div>
-        <div className="container-wide grid sm:grid-cols-2 gap-4 md:gap-6">
+        <div className="container-wide grid sm:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
           {services.map((s, i) => (
             <ScrollReveal key={s.title} delay={i * 0.1}>
-              <Link to={s.link} className="group block">
-                <div className="rounded-xl md:rounded-2xl overflow-hidden card-shadow hover-lift bg-background grid md:grid-cols-2 h-full">
-                  <div className="aspect-[16/10] md:aspect-auto overflow-hidden">
-                    <img src={s.image} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={400} height={300} />
+              <Link to={s.link} className="group block h-full">
+                <div className="h-full bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_30px_60px_rgba(0,0,0,0.4)] hover:-translate-y-1.5 flex flex-col md:flex-row">
+                  <div className="md:w-1/2 aspect-[16/10] md:aspect-auto overflow-hidden relative">
+                    <img 
+                      src={s.image} 
+                      alt={s.title} 
+                      className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1" 
+                      loading="lazy" 
+                    />
+                    {/* Image overlay to blend with card */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/0 to-black/20" />
                   </div>
-                  <div className="p-5 md:p-8 flex flex-col justify-center">
-                    <h3 className="font-heading font-bold text-primary text-lg md:text-xl mb-2">{s.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4 md:mb-5 leading-relaxed">{s.desc}</p>
-                    <span className="text-accent font-semibold text-sm flex items-center gap-1.5 group-hover:gap-3 transition-all">
-                      {s.cta} <ArrowRight className="w-4 h-4" />
+                  <div className="md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
+                    <h3 className="font-heading font-extrabold text-white text-xl md:text-2xl mb-3 tracking-tight group-hover:text-accent transition-colors duration-300">{s.title}</h3>
+                    <p className="text-white/60 text-sm md:text-base mb-6 md:mb-8 leading-relaxed line-clamp-3">{s.desc}</p>
+                    <span className="inline-flex items-center gap-2 text-accent font-bold text-sm tracking-wide uppercase transition-all group-hover:gap-3">
+                      {s.cta} 
+                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </div>
@@ -294,7 +329,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* BEFORE/AFTER — Proof */}
+      {/* BEFORE/AFTER */}
       <section className="section-padding">
         <div className="container-tight text-center mb-10 md:mb-12">
           <ScrollReveal>
@@ -309,7 +344,7 @@ const Index = () => {
         </ScrollReveal>
       </section>
 
-      {/* SOCIAL PROOF — Conversion Booster */}
+      {/* SOCIAL PROOF */}
       <section className="section-padding bg-muted/30 overflow-hidden">
         <div className="container-wide relative mb-8">
           <div className="flex justify-center items-end gap-2 md:gap-4 overflow-hidden max-w-4xl mx-auto">
@@ -338,37 +373,34 @@ const Index = () => {
 
         <div className="container-tight text-center">
           <ScrollReveal>
-            <span className="inline-block bg-background rounded-full px-4 py-1.5 text-sm font-medium text-primary card-shadow mb-6">
-              Patient Results
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-primary leading-[1.1] mb-2">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-heading font-semibold text-xs tracking-wider uppercase mb-5">Patient Results</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white leading-[1.05] mb-3">
               They Came in With Pain.
             </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-heading text-muted-foreground/50 mb-5 md:mb-6">
+            <p className="text-2xl md:text-3xl lg:text-4xl font-heading text-white/30 mb-6 tracking-tight">
               They Left With Confidence.
             </p>
-            <p className="text-muted-foreground max-w-lg mx-auto mb-8 text-sm md:text-base">
+            <p className="text-white/70 max-w-lg mx-auto mb-10 text-base md:text-lg">
               Every review is from a verified patient who trusted us with their oral health — and got measurable results.
             </p>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-4 md:gap-5 mt-8 mb-8">
-            {[
-              { name: "Maria G.", text: "I was losing my teeth to gum disease. Within months of treatment, everything changed. I can finally eat without pain again.", tag: "Periodontal Treatment" },
+          <div className="grid md:grid-cols-3 gap-5 md:gap-6 mt-10 mb-12">
+            {[{ name: "Maria G.", text: "I was losing my teeth to gum disease. Within months of treatment, everything changed. I can finally eat without pain again.", tag: "Periodontal Treatment" },
               { name: "James T.", text: "LANAP saved my teeth when I was told I'd need full extractions. No cutting, no stitches. I was back at work the next day.", tag: "LANAP Laser" },
-              { name: "Sarah K.", text: "I thought I'd need dentures at 52. Instead, I got implants that look and feel completely real. Best decision of my life.", tag: "Dental Implants" },
+              { name: "Sarah K.", text: "Sarah K. lost her confidence due to missing teeth. She got implants that look and feel completely real. Best decision of her life.", tag: "Dental Implants" }
             ].map((t, i) => (
               <ScrollReveal key={t.name} delay={i * 0.1}>
-                <div className="bg-background rounded-xl md:rounded-2xl p-5 md:p-6 card-shadow text-left h-full">
-                  <div className="flex gap-1 mb-3">
+                <div className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-8 transition-all duration-500 hover:bg-white/10 hover:border-white/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 h-full flex flex-col items-start text-left">
+                  <div className="flex gap-1 mb-5">
                     {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className="w-3.5 h-3.5 fill-accent text-accent" />
+                      <Star key={j} className="w-4 h-4 fill-accent text-accent drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{t.text}"</p>
-                  <div className="flex items-center justify-between">
-                    <p className="font-heading font-bold text-primary text-sm">{t.name}</p>
-                    <span className="text-[10px] font-medium text-accent bg-accent/10 rounded-full px-2 py-0.5">{t.tag}</span>
+                  <p className="italic text-white/70 text-sm md:text-base leading-relaxed mb-8 flex-grow">"{t.text}"</p>
+                  <div className="w-full flex items-center justify-between pt-5 border-t border-white/5">
+                    <p className="font-heading font-bold text-white text-sm md:text-base">{t.name}</p>
+                    <span className="text-[10px] md:text-[11px] font-bold text-accent px-3 py-1 bg-accent/10 rounded-full uppercase tracking-wider">{t.tag}</span>
                   </div>
                 </div>
               </ScrollReveal>
@@ -376,23 +408,22 @@ const Index = () => {
           </div>
 
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 bg-background rounded-full px-5 py-2.5 card-shadow">
-              <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" width={16} height={16} />
-              <span className="text-primary font-semibold text-sm">5.0 on Google</span>
-              <span className="text-muted-foreground text-sm">• 200+ verified reviews</span>
+            <div className="inline-flex items-center gap-3 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-full px-6 py-3 transition-all duration-300">
+              <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4 grayscale group-hover:grayscale-0 transition-all" width={16} height={16} />
+              <span className="text-white font-bold text-sm">5.0 on Google</span>
+              <span className="text-white/40 text-sm">• 200+ verified reviews</span>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* SPECIALIST ADVANTAGE — Modern Redesign */}
+      {/* SPECIALIST ADVANTAGE */}
       <section className="section-padding relative overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)", backgroundSize: "24px 24px" }} />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full -ml-96 -translate-y-1/2" />
 
         <div className="container-wide relative z-10">
-          {/* Header */}
-          <div className="text-center mb-10 md:mb-14">
+          <div className="text-center mb-12 md:mb-16">
             <ScrollReveal>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -403,20 +434,18 @@ const Index = () => {
                 <Shield className="w-4 h-4 text-accent" />
                 <span className="text-sm font-semibold text-accent">Specialist Advantage</span>
               </motion.div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-heading font-extrabold text-primary leading-[1.1] mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.8rem] font-heading font-extrabold text-white leading-[1.05] mb-5">
                 Why Patients Choose a Periodontist<br className="hidden md:block" />
-                <span className="text-accent"> Over a General Dentist</span>
+                <span className="text-accent underline decoration-white/10 underline-offset-8"> Over a General Dentist</span>
               </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
-                A periodontist completes 3+ additional years of surgical residency — focused exclusively on gum disease, bone regeneration, and implant surgery.
+              <p className="text-white/60 max-w-2xl mx-auto text-base md:text-lg">
+                A periodontist completes <span className="text-white font-semibold">3+ additional years</span> of surgical residency — focused exclusively on gum disease, bone regeneration, and implant surgery.
               </p>
             </ScrollReveal>
           </div>
 
-          {/* Main grid: Advantages + Doctors */}
           <div className="grid lg:grid-cols-[1fr_400px] gap-8 lg:gap-12 items-start">
-            {/* Left: Advantage cards */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-5 md:gap-6">
               {[
                 { icon: Award, title: "3+ Years Advanced Training", desc: "Beyond dental school. Focused exclusively on gums, bone, and implant surgery.", stat: "3+ yrs" },
                 { icon: Shield, title: "Higher Success Rates", desc: "Specialists achieve significantly better implant success and long-term outcomes.", stat: "98%" },
@@ -425,26 +454,24 @@ const Index = () => {
               ].map((item, i) => (
                 <ScrollReveal key={item.title} delay={i * 0.1}>
                   <motion.div
-                    whileHover={{ y: -4 }}
-                    className="bg-primary/[0.03] border border-border/30 rounded-2xl p-5 md:p-6 h-full hover:border-accent/30 hover:bg-accent/[0.03] transition-all duration-300 group"
+                    whileHover={{ y: -5 }}
+                    className="bg-white/[0.08] backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 md:p-8 h-full transition-all duration-500 hover:bg-white/[0.12] hover:border-white/30 hover:shadow-[0_25px_50px_rgba(0,0,0,0.4)] group"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                        <item.icon className="w-5 h-5 text-accent" />
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center group-hover:bg-accent/15 group-hover:border-accent/50 transition-all duration-500 text-accent">
+                        <item.icon className="w-6 h-6 transition-transform duration-500 group-hover:scale-110" />
                       </div>
-                      <span className="font-heading font-extrabold text-accent/30 text-2xl group-hover:text-accent/50 transition-colors">{item.stat}</span>
+                      <span className="font-heading font-extrabold text-white/40 text-2xl md:text-3xl group-hover:text-accent/60 transition-colors duration-500">{item.stat}</span>
                     </div>
-                    <h3 className="font-heading font-bold text-primary text-[15px] mb-2">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                    <h3 className="font-heading font-bold text-white text-lg md:text-xl mb-3 tracking-tight group-hover:text-accent transition-colors duration-300">{item.title}</h3>
+                    <p className="text-sm md:text-base text-white/80 leading-relaxed group-hover:text-white transition-colors duration-300 font-medium">{item.desc}</p>
                   </motion.div>
                 </ScrollReveal>
               ))}
             </div>
 
-            {/* Right: Doctor photos + WhatsApp CTA */}
             <ScrollReveal delay={0.2}>
               <div className="sticky top-28 space-y-5">
-                {/* Stacked doctor photos */}
                 <div className="relative">
                   <div className="grid grid-cols-2 gap-3">
                     <motion.div
@@ -466,44 +493,41 @@ const Index = () => {
                       <img src={drThomas} alt="Dr. Thomas Nguyen" className="w-full aspect-[3/4] object-cover" loading="lazy" />
                     </motion.div>
                   </div>
-                  {/* Floating badge */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.6, type: "spring" }}
-                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-background rounded-xl px-5 py-3 card-shadow border border-border/50 flex items-center gap-3"
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-xl rounded-[1.25rem] px-6 py-4 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/20 flex items-center gap-4 z-20"
                   >
-                    <div className="flex -space-x-2">
-                      <img src={drHai} alt="" className="w-8 h-8 rounded-full border-2 border-background object-cover" />
-                      <img src={drThomas} alt="" className="w-8 h-8 rounded-full border-2 border-background object-cover" />
+                    <div className="flex -space-x-3">
+                      <img src={drHai} alt="" className="w-10 h-10 rounded-full border-2 border-white/20 object-cover shadow-lg" />
+                      <img src={drThomas} alt="" className="w-10 h-10 rounded-full border-2 border-white/20 object-cover shadow-lg" />
                     </div>
                     <div>
-                      <p className="font-heading font-bold text-primary text-xs">Board-Certified</p>
-                      <p className="text-[10px] text-muted-foreground">DDS, MS Specialists</p>
+                      <p className="font-heading font-extrabold text-white text-sm">Board-Certified</p>
+                      <p className="text-[11px] font-bold text-accent uppercase tracking-wider">Specialists</p>
                     </div>
                   </motion.div>
                 </div>
 
-                {/* CTA Buttons */}
-                <div className="space-y-3 pt-4">
-                  <Link to="/contact" className="block">
-                    <Button variant="gold" size="lg" className="w-full rounded-xl min-h-[52px] text-base">
-                      Book a 1:1 Consultation <ArrowRight className="w-4 h-4 ml-1" />
+                <div className="space-y-4 pt-4">
+                  <Link to="/contact" className="block group">
+                    <Button variant="gold" size="lg" className="w-full rounded-xl min-h-[56px] text-base shadow-[0_10px_20px_rgba(255,215,0,0.15)] group-hover:shadow-[0_15px_30px_rgba(255,215,0,0.25)] transition-all">
+                      Book a 1:1 Consultation <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                   <a
-                    href="https://wa.me/18321234567?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20with%20a%20periodontal%20specialist."
+                    href="https://wa.me/18321234567?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block"
+                    className="block group"
                   >
-                    <Button variant="outline" size="lg" className="w-full rounded-xl min-h-[52px] text-base border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/10 hover:text-[#25D366] hover:border-[#25D366]/50 gap-2.5">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                      Book via WhatsApp
+                    <Button variant="outline" size="lg" className="w-full rounded-xl min-h-[56px] text-base border-white/10 hover:border-[#25D366]/40 text-white hover:bg-[#25D366]/10 gap-3 transition-all">
+                      <Phone className="w-4 h-4 text-[#25D366]" />
+                      <span>Book via WhatsApp</span>
                     </Button>
                   </a>
-                  <p className="text-center text-[11px] text-muted-foreground">No obligation · Response within 2 hours</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -511,53 +535,58 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ELIGIBILITY FUNNEL */}
-      <section id="eligibility" className="section-padding bg-muted/50">
-        <div className="container-tight max-w-xl mx-auto text-center">
+      {/* ELIGIBILITY */}
+      <section id="eligibility" className="section-padding relative">
+        <div className="container-tight max-w-xl mx-auto">
           <ScrollReveal>
-            <span className="text-accent font-heading font-semibold text-sm tracking-wider uppercase mb-3 block">Takes Less Than 30 Seconds</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary mb-3">Check If You're a Candidate</h2>
-            <p className="text-muted-foreground text-sm mb-6 md:mb-8">No obligation. No commitment. Just answers.</p>
+            <div className="text-center mb-8 md:mb-10">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-heading font-semibold text-xs tracking-wider uppercase mb-4">Takes Less Than 30 Seconds</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-white mb-3">Check If You're a Candidate</h2>
+              <p className="text-white/70 text-sm md:text-base">No obligation. No commitment. Just answers.</p>
+            </div>
 
             {!showResult ? (
-              <div className="bg-background rounded-xl md:rounded-2xl p-6 md:p-8 card-shadow text-left space-y-5 md:space-y-6">
+              <div className="bg-white/5 backdrop-blur-2xl border border-white/20 rounded-[2rem] p-6 md:p-10 shadow-[-10px_20px_40px_rgba(0,0,0,0.3)] text-left space-y-6 md:space-y-8">
                 <div>
-                  <label className="block font-heading font-semibold text-primary mb-3 text-sm">Are you missing any teeth?</label>
-                  <div className="flex gap-3">
+                  <label className="block font-heading font-bold text-white mb-3 text-[15px] pl-1">Are you missing any teeth?</label>
+                  <div className="flex gap-3 md:gap-4">
                     {["Yes", "No"].map((v) => (
-                      <button key={v} onClick={() => setEligibility({ ...eligibility, teeth: v })} className={`flex-1 min-h-[48px] rounded-xl border-2 font-semibold text-sm transition-all active:scale-[0.97] ${eligibility.teeth === v ? "border-accent bg-accent/10 text-accent" : "border-border text-muted-foreground hover:border-accent/50"}`}>{v}</button>
+                      <button key={v} onClick={() => setEligibility({ ...eligibility, teeth: v })} className={`flex-1 min-h-[56px] rounded-xl border-2 font-semibold text-sm md:text-[15px] transition-all duration-300 active:scale-[0.98] ${eligibility.teeth === v ? "border-accent bg-accent/15 text-accent shadow-[0_0_15px_rgba(255,215,0,0.15)]" : "border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:border-white/30"}`}>{v}</button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <label className="block font-heading font-semibold text-primary mb-3 text-sm">Do your gums bleed when brushing?</label>
-                  <div className="flex gap-3">
+                  <label className="block font-heading font-bold text-white mb-3 text-[15px] pl-1">Do your gums bleed when brushing?</label>
+                  <div className="flex gap-3 md:gap-4">
                     {["Yes", "No"].map((v) => (
-                      <button key={v} onClick={() => setEligibility({ ...eligibility, bleeding: v })} className={`flex-1 min-h-[48px] rounded-xl border-2 font-semibold text-sm transition-all active:scale-[0.97] ${eligibility.bleeding === v ? "border-accent bg-accent/10 text-accent" : "border-border text-muted-foreground hover:border-accent/50"}`}>{v}</button>
+                      <button key={v} onClick={() => setEligibility({ ...eligibility, bleeding: v })} className={`flex-1 min-h-[56px] rounded-xl border-2 font-semibold text-sm md:text-[15px] transition-all duration-300 active:scale-[0.98] ${eligibility.bleeding === v ? "border-accent bg-accent/15 text-accent shadow-[0_0_15px_rgba(255,215,0,0.15)]" : "border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:border-white/30"}`}>{v}</button>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <label className="block font-heading font-semibold text-primary mb-3 text-sm">Estimated treatment budget?</label>
+                  <label className="block font-heading font-bold text-white mb-3 text-[15px] pl-1">Estimated treatment budget?</label>
                   <div className="grid grid-cols-3 gap-2 md:gap-3">
                     {["< $5K", "$5K–$15K", "$15K+"].map((v) => (
-                      <button key={v} onClick={() => setEligibility({ ...eligibility, budget: v })} className={`min-h-[48px] rounded-xl border-2 font-semibold text-xs md:text-sm transition-all active:scale-[0.97] ${eligibility.budget === v ? "border-accent bg-accent/10 text-accent" : "border-border text-muted-foreground hover:border-accent/50"}`}>{v}</button>
+                      <button key={v} onClick={() => setEligibility({ ...eligibility, budget: v })} className={`min-h-[56px] rounded-xl border-2 font-semibold text-xs md:text-sm transition-all duration-300 active:scale-[0.98] ${eligibility.budget === v ? "border-accent bg-accent/15 text-accent shadow-[0_0_15px_rgba(255,215,0,0.15)]" : "border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:border-white/30"}`}>{v}</button>
                     ))}
                   </div>
                 </div>
-                <Button variant="gold" className="w-full min-h-[48px]" size="lg" onClick={() => setShowResult(true)} disabled={!eligibility.teeth || !eligibility.bleeding || !eligibility.budget}>
-                  Check My Eligibility
-                </Button>
+                <div className="pt-2">
+                  <Button variant="gold" className={`w-full min-h-[56px] text-base rounded-xl transition-all duration-500 shadow-[0_0_20px_rgba(255,215,0,0.2)] ${(!eligibility.teeth || !eligibility.bleeding || !eligibility.budget) ? "opacity-30 grayscale saturate-0" : "hover:shadow-[0_0_30px_rgba(255,215,0,0.4)]"}`} size="lg" onClick={() => setShowResult(true)} disabled={!eligibility.teeth || !eligibility.bleeding || !eligibility.budget}>
+                    Check My Eligibility
+                  </Button>
+                </div>
               </div>
             ) : (
-              <div className="bg-background rounded-xl md:rounded-2xl p-6 md:p-8 card-shadow">
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle2 className="w-8 h-8 text-accent" />
+              <div className="bg-white/5 backdrop-blur-2xl border border-white/20 rounded-[2rem] p-8 md:p-12 shadow-[-10px_20px_40px_rgba(0,0,0,0.3)] flex flex-col items-center justify-center text-center">
+                <div className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-6 relative">
+                  <div className="absolute inset-0 bg-accent rounded-full animate-ping opacity-20" />
+                  <CheckCircle2 className="w-10 h-10 text-accent" />
                 </div>
-                <h3 className="font-heading font-bold text-primary text-xl mb-2">You Qualify for Treatment</h3>
-                <p className="text-muted-foreground text-sm mb-6">Based on your responses, our specialists can help. The next step is a no-obligation consultation to build your treatment plan.</p>
-                <Link to="/contact">
-                  <Button variant="gold" size="lg" className="w-full min-h-[48px]">Book Your Consultation <ArrowRight className="w-4 h-4 ml-1" /></Button>
+                <h3 className="font-heading font-extrabold text-white text-2xl md:text-3xl mb-3">You Qualify for Treatment</h3>
+                <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-sm mb-8">Based on your responses, our specialists can definitely help. The next step is a no-obligation clinical checkup to construct your plan.</p>
+                <Link to="/contact" className="w-full">
+                  <Button variant="gold" size="lg" className="w-full min-h-[56px] text-base rounded-xl shadow-[0_0_20px_rgba(255,215,0,0.2)] hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] transition-all">Book Your Consultation <ArrowRight className="w-5 h-5 ml-1.5" /></Button>
                 </Link>
               </div>
             )}
@@ -582,11 +611,11 @@ const Index = () => {
         <div className="relative">
           <div className="flex gap-4 md:gap-5 overflow-x-auto pb-6 px-5 md:px-6 snap-x snap-mandatory scrollbar-hide">
             {[
-              { platform: "Instagram", handle: "@perioimplant", color: "from-[#833AB4] via-[#FD1D1D] to-[#F77737]", followers: "2.4K", desc: "Before & after transformations", img: patient1, icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> },
-              { platform: "Facebook", handle: "PerioDental Houston", color: "from-[#1877F2] to-[#0C63D4]", followers: "5.1K", desc: "Community updates & tips", img: patient3, icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> },
-              { platform: "YouTube", handle: "PerioDental", color: "from-[#FF0000] to-[#CC0000]", followers: "890", desc: "Procedure walkthroughs", img: patient4, icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> },
-              { platform: "TikTok", handle: "@perioimplant", color: "from-[#000000] to-[#25F4EE]", followers: "3.2K", desc: "Quick dental tips & reels", img: patient5, icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> },
-              { platform: "Google", handle: "5.0 ★ Rating", color: "from-[#4285F4] via-[#34A853] to-[#FBBC05]", followers: "200+", desc: "Verified patient reviews", img: patient2, icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> },
+              { platform: "Instagram", handle: "@perioimplant", color: "from-[#833AB4] via-[#FD1D1D] to-[#F77737]", followers: "2.4K", desc: "Before & after transformations", img: patient1 },
+              { platform: "Facebook", handle: "PerioDental Houston", color: "from-[#1877F2] to-[#0C63D4]", followers: "5.1K", desc: "Community updates & tips", img: patient3 },
+              { platform: "YouTube", handle: "PerioDental", color: "from-[#FF0000] to-[#CC0000]", followers: "890", desc: "Procedure walkthroughs", img: patient4 },
+              { platform: "TikTok", handle: "@perioimplant", color: "from-[#000000] to-[#25F4EE]", followers: "3.2K", desc: "Quick dental tips & reels", img: patient5 },
+              { platform: "Google", handle: "5.0 ★ Rating", color: "from-[#4285F4] via-[#34A853] to-[#FBBC05]", followers: "200+", desc: "Verified patient reviews", img: patient2 },
             ].map((social, i) => (
               <motion.a
                 key={social.platform}
@@ -605,9 +634,6 @@ const Index = () => {
                   <div className={`absolute inset-0 bg-gradient-to-t ${social.color} opacity-60 group-hover:opacity-70 transition-opacity`} />
                   <div className="absolute inset-0 p-4 md:p-5 flex flex-col justify-between text-white">
                     <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        {social.icon}
-                      </div>
                       <span className="text-[10px] md:text-xs font-semibold bg-white/20 backdrop-blur-sm rounded-full px-2.5 py-1">{social.followers} followers</span>
                     </div>
                     <div>
@@ -626,13 +652,13 @@ const Index = () => {
       </section>
 
       {/* URGENCY + CTA */}
-      <section className="section-padding gradient-navy">
+      <section className="section-padding gradient-brand">
         <div className="container-tight max-w-xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-primary-foreground mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-4">
               Gum Disease Gets Worse Every Week You Wait.
             </h2>
-            <p className="text-primary-foreground/60 mb-2 text-sm md:text-base">
+            <p className="text-white/60 mb-2 text-sm md:text-base">
               Bone loss is irreversible once it progresses. Don't wait until it becomes painful — or expensive.
             </p>
             <div className="mt-6 md:mt-8">
@@ -643,7 +669,7 @@ const Index = () => {
           </ScrollReveal>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

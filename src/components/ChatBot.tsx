@@ -259,46 +259,40 @@ const ChatBot = () => {
       {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-20 lg:bottom-6 right-4 z-50 w-[calc(100vw-2rem)] max-w-[380px] h-[min(600px,calc(100vh-6rem))] bg-background rounded-2xl shadow-2xl border border-border/50 flex flex-col overflow-hidden"
+            className="fixed bottom-20 lg:bottom-6 right-4 z-[100] w-[calc(100vw-2rem)] max-w-[400px] h-[min(650px,calc(100vh-8rem))] bg-[#1A0501] rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-primary px-4 py-3 flex items-center justify-between shrink-0">
+            <div className="bg-white px-5 py-4 flex items-center justify-between shrink-0 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center">
-                  <MessageCircle className="w-5 h-5 text-accent" />
+                <div className="w-10 h-10 rounded-2xl bg-[#8D2C08]/10 flex items-center justify-center">
+                  <MessageCircle className="w-6 h-6 text-[#8D2C08]" />
                 </div>
                 <div>
-                  <p className="font-heading font-bold text-primary-foreground text-sm">Perio Assistant</p>
+                  <p className="font-heading font-bold text-[#1A0501] text-base">Perio Assistant</p>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-green-400" />
-                    <span className="text-[11px] text-primary-foreground/60">Online now</span>
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[11px] text-[#1A0501]/60 font-medium">Online now</span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-full hover:bg-primary-foreground/10 flex items-center justify-center transition-colors">
-                <X className="w-4 h-4 text-primary-foreground" />
+              <button onClick={() => setIsOpen(false)} className="w-9 h-9 rounded-xl hover:bg-black/5 flex items-center justify-center transition-colors">
+                <X className="w-5 h-5 text-black/40" />
               </button>
             </div>
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-              {messages.map((msg, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: msg.role === "user" ? 10 : -10 }}
+                  animate={{ opacity: 1, x: 0 }}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm md:text-[15px] leading-relaxed shadow-sm ${
                       msg.role === "user"
-                        ? "bg-accent text-accent-foreground rounded-br-md"
-                        : "bg-muted text-foreground rounded-bl-md"
+                        ? "bg-accent text-accent-foreground rounded-br-md font-medium"
+                        : "bg-white/10 text-white border border-white/10 rounded-bl-md"
                     }`}
                   >
                     {msg.content}
@@ -334,21 +328,21 @@ const ChatBot = () => {
                     placeholder="Your name *"
                     value={booking.name}
                     onChange={(e) => setBooking({ ...booking, name: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
                   />
                   <input
                     type="tel"
                     placeholder="Phone number *"
                     value={booking.phone}
                     onChange={(e) => setBooking({ ...booking, phone: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
                   />
                   <input
                     type="email"
                     placeholder="Email (optional)"
                     value={booking.email}
                     onChange={(e) => setBooking({ ...booking, email: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <input
@@ -409,7 +403,7 @@ const ChatBot = () => {
                 >
                   <Phone className="w-4 h-4 text-accent" />
                 </a>
-                <div className="flex-1 flex items-center bg-muted rounded-full px-4">
+                <div className="flex-1 flex items-center bg-white/5 border border-white/10 rounded-full px-4 transition-all focus-within:bg-white/10 focus-within:border-accent/30">
                   <input
                     ref={inputRef}
                     type="text"
@@ -417,15 +411,15 @@ const ChatBot = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
-                    className="flex-1 bg-transparent py-2.5 text-sm focus:outline-none"
+                    className="flex-1 bg-transparent py-3 text-white placeholder:text-white/30 text-sm focus:outline-none"
                     disabled={isLoading}
                   />
                   <button
                     onClick={() => sendMessage(input)}
                     disabled={!input.trim() || isLoading}
-                    className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 transition-opacity ml-1 shrink-0"
+                    className="w-9 h-9 rounded-full bg-accent text-accent-foreground shadow-lg shadow-accent/20 flex items-center justify-center disabled:opacity-40 transition-all ml-1 shrink-0 active:scale-90"
                   >
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-4 h-4" />
                   </button>
                 </div>
               </div>

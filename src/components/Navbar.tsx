@@ -30,6 +30,9 @@ const Navbar = () => {
     setMobileOpen(false);
   }, [location]);
 
+  const isHome = location.pathname === '/';
+  const isTransparent = isHome && !scrolled;
+
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -41,18 +44,16 @@ const Navbar = () => {
       <nav
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "bg-background/95 backdrop-blur-md shadow-sm py-3"
-            : "bg-background py-4"
+          scrolled ? "bg-[#8D2C08] shadow-sm py-3" : isHome ? "bg-transparent py-5 border-b border-white/10" : "bg-[#8D2C08] py-4"
         )}
       >
         <div className="container-wide px-6 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg gradient-navy flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-sm">P</span>
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", isTransparent ? "bg-white/10" : "bg-white/10")}>
+              <span className="text-white font-heading font-bold text-sm">P</span>
             </div>
-            <span className="font-heading font-bold text-lg text-primary">
-              Perio<span className="text-accent">Dental</span>
+            <span className="font-heading font-bold text-lg text-white">
+              Perio<span className={cn(isTransparent ? "text-white/60" : "text-white/70")}>Dental</span>
             </span>
           </Link>
 
@@ -65,8 +66,8 @@ const Navbar = () => {
                 className={cn(
                   "px-3 py-2 rounded-md text-sm font-medium transition-colors",
                   location.pathname === link.to
-                    ? "text-accent"
-                    : "text-foreground/70 hover:text-foreground"
+                    ? "text-white/90 font-semibold"
+                    : "text-white/70 hover:text-white"
                 )}
               >
                 {link.label}
@@ -75,19 +76,19 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <a href="tel:+17135551234" className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="tel:+17135551234" className="flex items-center gap-1.5 text-sm text-white/80 hover:text-white transition-colors">
               <Phone className="w-4 h-4" />
               (713) 555-1234
             </a>
           <Link to="/contact">
-              <Button variant="gold" size="sm">Book Your Consultation</Button>
+              <Button variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/10 hover:text-white bg-transparent">Book Your Consultation</Button>
             </Link>
           </div>
 
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-foreground relative z-[60]"
+            className="lg:hidden p-2 text-white relative z-[60]"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
